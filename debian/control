@@ -1,0 +1,32 @@
+Source: plugin-hostd-full
+Section: metapackages
+Priority: optional
+Maintainer: Pau Aliagas <linuxnow@gmail.com>
+Build-Depends: debhelper-compat (= 13), python3
+Standards-Version: 4.7.0
+Homepage: https://github.com/Open-Mixer/plugin-hostd-full
+Rules-Requires-Root: no
+
+# The whole plugin host stack in one install. Every dependency a floor at the release this one is tested with and a
+# ceiling below the next minor; the records' dated version below the next year's first (tests/ranges.py). The records
+# are recommended until the package is in the channel; a hard dependency on it now would leave plugin-hostd-full
+# uninstallable. The panel is recommended: `apt install --no-install-recommends plugin-hostd-full` is the headless
+# install, with no panel. plugin-hostd is a range like the others (ruling 2026-11-09: its own repository, released last).
+Package: plugin-hostd-full
+Architecture: all
+Depends: plugin-hostd (>= 0.20.7~), plugin-hostd (<< 0.21~),
+         omx-clap-host (>= 0.32.3~), omx-clap-host (<< 0.33~),
+         omx-plugins (>= 0.19.3~), omx-plugins (<< 0.20~),
+         plugin-qualify (>= 0.20.1~), plugin-qualify (<< 0.21~),
+         ${misc:Depends}
+Recommends: omx-panel (>= 0.13.0~), omx-panel (<< 0.14~),
+            plugin-qualification-records (>= 2026110902~), plugin-qualification-records (<< 2027000000~)
+Description: whole plugin host stack: daemon, workers, plugins, qualifier
+ Installs plugin-hostd with everything it runs plugins with: omx-clap-host,
+ the CLAP worker that also runs LV2 plugins through its adapter, the OpenMixer
+ plugins, plugin-qualify, which measures each installed plugin before it is
+ trusted live, and the qualification records of this machine's class, so the
+ plugins measured on a machine like this one are taken from the records.
+ .
+ omx-panel, the plugin panels in a browser, is a recommendation: install with
+ --no-install-recommends for a machine with no screen.
