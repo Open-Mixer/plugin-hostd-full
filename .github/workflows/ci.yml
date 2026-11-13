@@ -1,0 +1,46 @@
+name: ci
+
+# Every pull request and push: the ranges (every dependency a floor and the next minor as its ceiling, the same in the
+# spec and debian/control) and the kept-install check's own self-test, then the RPM and the DEB built as the release
+# builds them (Open-Mixer/.github's build-rpm and build-deb actions), published nowhere.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: make check
+
+  rpm:
+    name: RPM (fc44), built as the release builds it
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: fedora:44
+    steps:
+      - name: Install the build tools
+        run: dnf install -y --setopt=install_weak_deps=False git rpm-build dnf5-plugins make python3
+      - uses: actions/checkout@v4
+      - uses: Open-Mixer/.github/.github/actions/build-rpm@openmixer-v1
+
+  deb:
+    name: DEB (trixie), built and linted as the release builds it
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: debian:trixie
+    steps:
+      - name: Install the build tools
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends ca-certificates git dpkg-dev debhelper build-essential lintian python3
+      - uses: actions/checkout@v4
+      - uses: Open-Mixer/.github/.github/actions/build-deb@openmixer-v1

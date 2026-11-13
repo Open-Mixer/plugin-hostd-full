@@ -1,0 +1,8 @@
+plugin-hostd-full (1.0.0) unstable; urgency=medium
+
+  * plugin-hostd-full in its own repository (ruling 2026-11-09), the
+    outermost layer, released last in each wave; until now a subpackage of
+    plugin-hostd, whose last build of it was 0.20.7. plugin-hostd is a range,
+    >= 0.20.7 and << 0.21, like every other dependency.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Fri, 13 Nov 2026 20:00:00 +0100
