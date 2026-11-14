@@ -24,10 +24,10 @@ set -euo pipefail
 version_is() { case $1 in "$2"|"$2"-*|"$2"~*|"$2"+*) return 0 ;; *) return 1 ;; esac; }
 if [ "${1-}" = --self-test ]; then
     bad=0
-    for good in "1.0.0 1.0.0" "1.0.0-1.fc44 1.0.0" "1.0.0~git5 1.0.0" "1.0.0+b1 1.0.0"; do
+    for good in "0.20.7 0.20.7" "0.20.7-1.fc44 0.20.7" "0.20.7~git5 0.20.7" "0.20.7+b1 0.20.7"; do
         set -- $good; version_is "$1" "$2" || { echo "FAIL $1 is $2"; bad=1; }
     done
-    for wrong in "1.0.1 1.0.0" "1.0.00 1.0.0" "0.20.7 1.0.0" "11.0.0 1.0.0"; do
+    for wrong in "0.20.8 0.20.7" "0.20.70 0.20.7" "1.0.0 0.20.7" "10.20.7 0.20.7"; do
         set -- $wrong; if version_is "$1" "$2"; then echo "FAIL $1 taken for $2"; bad=1; fi
     done
     [ $bad -eq 0 ] && echo "ok   full-install-check: the version match"
