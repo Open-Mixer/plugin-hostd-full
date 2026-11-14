@@ -12,6 +12,6 @@ With no screen: `sudo dnf install --setopt=install_weak_deps=False plugin-hostd-
 `sudo apt install --no-install-recommends plugin-hostd-full`.
 
 This repository is the package alone: every dependency with a floor and a ceiling (`make check`), the outermost layer of
-each release wave, released last. Until 1.0.0 it was a subpackage of plugin-hostd.
+each release wave, released last. Until 0.20.7 it was a subpackage of plugin-hostd.
 
 GPL-3.0-or-later. See [COPYING](COPYING).

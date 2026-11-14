@@ -1,5 +1,5 @@
 Name: plugin-hostd-full
-Version: 1.0.0
+Version: 0.20.7
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: Whole plugin host stack: daemon, workers, plugins, qualifier
@@ -51,7 +51,7 @@ make check
 %doc README.md
 
 %changelog
-* Fri Nov 13 2026 Pau Aliagas <linuxnow@gmail.com> - 1.0.0-1
+* Fri Nov 13 2026 Pau Aliagas <linuxnow@gmail.com> - 0.20.7-1
 - plugin-hostd-full in its own repository (ruling 2026-11-09), the outermost
   layer, released last in each wave; until now a subpackage of plugin-hostd,
   whose last build of it was 0.20.7. plugin-hostd is a range, >= 0.20.7 and
