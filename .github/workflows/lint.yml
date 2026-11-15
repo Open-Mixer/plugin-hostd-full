@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Pau Aliagas <linuxnow@gmail.com>
+name: lint
+
+# The ONE workflow of this repository that runs on a pull request, and never on a push. It holds the fast checks
+# only, each seconds long: the shared trigger gate (which refuses a push or pull-request trigger in every other
+# workflow), the shared public-sources check (commit messages, private references, the public layout, no local copy
+# of the shared checks) and make check (the ranges, the kept-install check's self-test, the records candidate).
+# The heavy jobs (the RPM and the DEB) are ci.yml's, run by workflow_dispatch on a pull request's head before it
+# merges, and release.yml's, on a v* tag.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  trigger-gate:
+    name: trigger gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Open-Mixer/.github/.github/actions/trigger-gate@openmixer-v1
+        with:
+          lint-workflow: lint.yml
+
+  public-sources:
+    uses: Open-Mixer/.github/.github/workflows/public-sources-check.yml@openmixer-v1
