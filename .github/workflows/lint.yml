@@ -26,3 +26,12 @@ jobs:
       - uses: Open-Mixer/.github/.github/actions/trigger-gate@openmixer-v1
         with:
           lint-workflow: lint.yml
+
+  # the ranges (every dependency a floor and the next minor as its ceiling, the same in the spec and debian/control),
+  # the kept-install check's own self-test and the records-candidate check: python and bash over the tree, no install
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: make check
