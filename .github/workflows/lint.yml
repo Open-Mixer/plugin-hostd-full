@@ -31,3 +31,12 @@ jobs:
 
   public-sources:
     uses: Open-Mixer/.github/.github/workflows/public-sources-check.yml@openmixer-v1
+
+  # the ranges, the kept-install check's self-test and the records candidate: plain python and bash, under a second
+  check:
+    name: make check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: make check
