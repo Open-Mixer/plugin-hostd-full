@@ -82,7 +82,7 @@ def planted():
     cases = {
         "no ceiling (spec)": (SPEC, spec.replace("(omx-plugins >= 0.19.3 with omx-plugins < 0.20)", "omx-plugins >= 0.19.3")),
         "no ceiling (deb)": (CONTROL, control.replace("omx-plugins (<< 0.20~),", "")),
-        "a ceiling past the next minor": (SPEC, spec.replace("omx-clap-host < 0.33)", "omx-clap-host < 0.34)")),
+        "a ceiling past the next minor": (SPEC, spec.replace("omx-clap-host < 0.34)", "omx-clap-host < 0.35)")),
         "plugin-hostd pinned": (SPEC, spec.replace("Requires: (plugin-hostd >= 0.20.7 with plugin-hostd < 0.21)",
                                                     "Requires: plugin-hostd = %{version}-%{release}")),
         "the spec and the deb apart": (CONTROL, control.replace("plugin-qualify (>= 0.20.1~)", "plugin-qualify (>= 0.20.2~)")),
