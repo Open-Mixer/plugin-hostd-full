@@ -1,5 +1,5 @@
 Name: plugin-hostd-full
-Version: 0.20.7
+Version: 0.20.8
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: Whole plugin host stack: daemon, workers, plugins, qualifier
@@ -18,8 +18,8 @@ BuildRequires: python3
 # dependency: `dnf install --setopt=install_weak_deps=False plugin-hostd-full` is the headless install, with no panel.
 # plugin-hostd is a range like the others: this package is its own repository, released last in each wave (ruling
 # 2026-11-09), so it never pins the daemon's own release.
-Requires: (plugin-hostd >= 0.20.7 with plugin-hostd < 0.21)
-Requires: (omx-clap-host >= 0.32.3 with omx-clap-host < 0.33)
+Requires: (plugin-hostd >= 0.20.8 with plugin-hostd < 0.21)
+Requires: (omx-clap-host >= 0.33.0 with omx-clap-host < 0.34)
 Requires: (omx-plugins >= 0.19.3 with omx-plugins < 0.20)
 Requires: (plugin-qualify >= 0.20.1 with plugin-qualify < 0.21)
 Recommends: (omx-panel >= 0.13.0 with omx-panel < 0.14)
@@ -51,6 +51,12 @@ make check
 %doc README.md
 
 %changelog
+* Sun Nov 15 2026 Pau Aliagas <linuxnow@gmail.com> - 0.20.8-1
+- plugin-hostd >= 0.20.8 and below 0.21, the 3.19.0 pass's release of it, and
+  omx-clap-host >= 0.33.0 and below 0.34, the wave's one omx-clap-core minor
+  (D30); tests/ranges.py plants its faults on the same ranges.
+- Every pull-request workflow cancels its superseded runs (#3).
+
 * Fri Nov 13 2026 Pau Aliagas <linuxnow@gmail.com> - 0.20.7-1
 - plugin-hostd-full in its own repository (ruling 2026-11-09), the outermost
   layer, released last in each wave; until now a subpackage of plugin-hostd,
