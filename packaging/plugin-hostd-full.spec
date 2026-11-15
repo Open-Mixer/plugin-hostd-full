@@ -19,7 +19,7 @@ BuildRequires: python3
 # plugin-hostd is a range like the others: this package is its own repository, released last in each wave (ruling
 # 2026-11-09), so it never pins the daemon's own release.
 Requires: (plugin-hostd >= 0.20.7 with plugin-hostd < 0.21)
-Requires: (omx-clap-host >= 0.32.3 with omx-clap-host < 0.33)
+Requires: (omx-clap-host >= 0.33.0 with omx-clap-host < 0.34)
 Requires: (omx-plugins >= 0.19.3 with omx-plugins < 0.20)
 Requires: (plugin-qualify >= 0.20.1 with plugin-qualify < 0.21)
 Recommends: (omx-panel >= 0.13.0 with omx-panel < 0.14)
