@@ -13,18 +13,18 @@ BuildRequires: python3
 
 # The whole plugin host stack in one install, on any Fedora: the daemon, its CLAP/LV2 worker, the OpenMixer plugins, the
 # qualifier and the qualification records (one package built per architecture: the desk sets on x86_64, the Raspberry
-# Pi 5 set on aarch64). Every dependency a floor at the release this one is tested with and a ceiling below the next
-# minor; the records' dated version (YYYYMMDDXX) below the next year's first (tests/ranges.py). The panel is a weak
+# Pi 5 set on aarch64). Every dependency a floor at the release this one is tested with, and no ceiling
+# (owner rule 2026-11-16: floors only; tests/ranges.py). The panel is a weak
 # dependency: `dnf install --setopt=install_weak_deps=False plugin-hostd-full` is the headless install, with no panel.
 # plugin-hostd is a range like the others: this package is its own repository, released last in each wave (ruling
 # 2026-11-09), so it never pins the daemon's own release.
-Requires: (plugin-hostd >= 0.20.8 with plugin-hostd < 0.21)
-Requires: (omx-clap-host >= 0.33.0 with omx-clap-host < 0.34)
-Requires: (omx-plugins >= 0.19.5 with omx-plugins < 0.20)
-Requires: (plugin-qualify >= 0.20.6 with plugin-qualify < 0.21)
-Recommends: (omx-panel >= 0.13.9 with omx-panel < 0.14)
+Requires: plugin-hostd >= 0.20.8
+Requires: omx-clap-host >= 0.33.0
+Requires: omx-plugins >= 0.19.5
+Requires: plugin-qualify >= 0.20.6
+Recommends: omx-panel >= 0.13.9
 # recommended until the package is in the channel: a hard dependency now would leave plugin-hostd-full uninstallable
-Recommends: (plugin-qualification-records >= 2026110902 with plugin-qualification-records < 2027000000)
+Recommends: plugin-qualification-records >= 2026110902
 
 %description
 Installs plugin-hostd with everything it runs plugins with: omx-clap-host,
