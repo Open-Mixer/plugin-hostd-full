@@ -80,12 +80,12 @@ def planted():
     """each kind of broken range planted in a copy: every one must be seen"""
     spec, control = read(ROOT, SPEC), read(ROOT, CONTROL)
     cases = {
-        "no ceiling (spec)": (SPEC, spec.replace("(omx-plugins >= 0.19.3 with omx-plugins < 0.20)", "omx-plugins >= 0.19.3")),
+        "no ceiling (spec)": (SPEC, spec.replace("(omx-plugins >= 0.19.5 with omx-plugins < 0.20)", "omx-plugins >= 0.19.5")),
         "no ceiling (deb)": (CONTROL, control.replace("omx-plugins (<< 0.20~),", "")),
         "a ceiling past the next minor": (SPEC, spec.replace("omx-clap-host < 0.34)", "omx-clap-host < 0.35)")),
         "plugin-hostd pinned": (SPEC, spec.replace("Requires: (plugin-hostd >= 0.20.8 with plugin-hostd < 0.21)",
                                                     "Requires: plugin-hostd = %{version}-%{release}")),
-        "the spec and the deb apart": (CONTROL, control.replace("plugin-qualify (>= 0.20.1~)", "plugin-qualify (>= 0.20.2~)")),
+        "the spec and the deb apart": (CONTROL, control.replace("plugin-qualify (>= 0.20.6~)", "plugin-qualify (>= 0.20.7~)")),
         "a dependency dropped": (CONTROL, control.replace("            plugin-qualification-records (>= 2026110902~), plugin-qualification-records (<< 2027000000~)\n", "").replace("omx-panel (<< 0.14~),", "omx-panel (<< 0.14~)")),
     }
     missed = []
