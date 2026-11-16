@@ -16,10 +16,10 @@ Package: plugin-hostd-full
 Architecture: all
 Depends: plugin-hostd (>= 0.20.8~), plugin-hostd (<< 0.21~),
          omx-clap-host (>= 0.33.0~), omx-clap-host (<< 0.34~),
-         omx-plugins (>= 0.19.3~), omx-plugins (<< 0.20~),
-         plugin-qualify (>= 0.20.1~), plugin-qualify (<< 0.21~),
+         omx-plugins (>= 0.19.5~), omx-plugins (<< 0.20~),
+         plugin-qualify (>= 0.20.6~), plugin-qualify (<< 0.21~),
          ${misc:Depends}
-Recommends: omx-panel (>= 0.13.0~), omx-panel (<< 0.14~),
+Recommends: omx-panel (>= 0.13.9~), omx-panel (<< 0.14~),
             plugin-qualification-records (>= 2026110902~), plugin-qualification-records (<< 2027000000~)
 Description: whole plugin host stack: daemon, workers, plugins, qualifier
  Installs plugin-hostd with everything it runs plugins with: omx-clap-host,
