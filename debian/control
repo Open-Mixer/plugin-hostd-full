@@ -15,7 +15,7 @@ Rules-Requires-Root: no
 Package: plugin-hostd-full
 Architecture: all
 Depends: plugin-hostd (>= 0.20.8~),
-         omx-clap-host (>= 0.33.0~),
+         omx-clap-host (>= 0.32.5~),
          omx-plugins (>= 0.19.5~),
          plugin-qualify (>= 0.20.6~),
          ${misc:Depends}

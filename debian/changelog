@@ -1,7 +1,7 @@
 plugin-hostd-full (0.20.8) unstable; urgency=medium
 
   * plugin-hostd >= 0.20.8, the 3.19.0 pass's release of it, and
-    omx-clap-host >= 0.33.0, the wave's one omx-clap-core minor (D30); every
+    omx-clap-host >= 0.32.5, the release that carries the property work (D30); every
     dependency a floor only, no ceiling; tests/ranges.py plants its faults on
     the same floors.
   * Every pull-request workflow cancels its superseded runs (#3).

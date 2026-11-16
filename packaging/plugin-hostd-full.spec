@@ -19,7 +19,7 @@ BuildRequires: python3
 # plugin-hostd is a range like the others: this package is its own repository, released last in each wave (ruling
 # 2026-11-09), so it never pins the daemon's own release.
 Requires: plugin-hostd >= 0.20.8
-Requires: omx-clap-host >= 0.33.0
+Requires: omx-clap-host >= 0.32.5
 Requires: omx-plugins >= 0.19.5
 Requires: plugin-qualify >= 0.20.6
 Recommends: omx-panel >= 0.13.9
@@ -53,7 +53,7 @@ make check
 %changelog
 * Sun Nov 15 2026 Pau Aliagas <linuxnow@gmail.com> - 0.20.8-1
 - plugin-hostd >= 0.20.8 and below 0.21, the 3.19.0 pass's release of it, and
-  omx-clap-host >= 0.33.0 and below 0.34, the wave's one omx-clap-core minor
+  omx-clap-host >= 0.32.5, the release that carries the property work
   (D30); tests/ranges.py plants its faults on the same ranges.
 - Every pull-request workflow cancels its superseded runs (#3).
 
