@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # plugin-hostd-full's dependencies, in the RPM spec and debian/control alike: every one a floor and no ceiling (owner rule
-# 2026-11-16: our packages carry floors only; a breaking release declares its own Breaks/Conflicts). The same floors in
+# 2026-11-16: our packages carry floors only; a breaking release stops and asks the owner). The same floors in
 # both; plugin-hostd a floor like the others, never pinned to this package's own version (ruling 2026-11-09:
 # plugin-hostd-full is its own repository, released last in each wave).
 #
