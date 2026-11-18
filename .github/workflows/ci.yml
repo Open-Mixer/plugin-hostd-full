@@ -1,12 +1,12 @@
 name: ci
 
-# Every pull request and push: the ranges (every dependency a floor and no ceiling, the same in the
-# spec and debian/control) and the kept-install check's own self-test, then the RPM and the DEB built as the release
-# builds them (Open-Mixer/.github's build-rpm and build-deb actions), published nowhere.
+# The heavy jobs, by workflow_dispatch only (never on a push or a pull request): the RPM and the DEB built as the
+# release builds them (Open-Mixer/.github's build-rpm and build-deb actions), published nowhere. A pull request is
+# checked by dispatching this workflow on its head before it merges (gh workflow run ci.yml --ref <branch>). Its fast
+# checks are lint.yml's make check: the floors-only ranges (every dependency a floor and no ceiling, the same in the
+# spec and debian/control) and the kept-install check's own self-test.
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,13 +16,6 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' }}
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - run: make check
-
   rpm:
     name: RPM (fc44), built as the release builds it
     runs-on: ubuntu-latest
