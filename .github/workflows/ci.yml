@@ -1,6 +1,6 @@
 name: ci
 
-# Every pull request and push: the ranges (every dependency a floor and the next minor as its ceiling, the same in the
+# Every pull request and push: the ranges (every dependency a floor and no ceiling, the same in the
 # spec and debian/control) and the kept-install check's own self-test, then the RPM and the DEB built as the release
 # builds them (Open-Mixer/.github's build-rpm and build-deb actions), published nowhere.
 on:
