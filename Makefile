@@ -7,5 +7,6 @@
 all:
 check:
 	python3 tests/ranges.py
+	python3 tests/same_pass_wiring.py
 	bash tools/full-install-check.sh --self-test
 	bash tests/records_candidate.sh
