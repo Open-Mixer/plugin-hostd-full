@@ -31,6 +31,8 @@ jobs:
 
   public-sources:
     uses: Open-Mixer/.github/.github/workflows/public-sources-check.yml@openmixer-v1
+    with:
+      commit-identity: true
 
   # the ranges, the kept-install check's self-test and the records candidate: plain python and bash, under a second
   check:
