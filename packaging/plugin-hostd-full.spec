@@ -18,8 +18,9 @@ BuildRequires: python3
 # dependency: `dnf install --setopt=install_weak_deps=False plugin-hostd-full` is the headless install, with no panel.
 # plugin-hostd is a floor like the others: this package is its own repository, released last in each wave (ruling
 # 2026-11-09), so it never pins the daemon's own release.
-Requires: plugin-hostd >= 0.20.7
-Requires: omx-clap-host >= 0.32.3
+Requires: plugin-hostd >= 0.20.8
+Requires: plugin-hostd-protocol >= 0.6.0
+Requires: omx-clap-host >= 0.33.0
 Requires: omx-plugins >= 0.19.3
 Requires: plugin-qualify >= 0.20.1
 Recommends: omx-panel >= 0.13.0

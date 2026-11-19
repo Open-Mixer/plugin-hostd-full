@@ -14,8 +14,9 @@ Rules-Requires-Root: no
 # install, with no panel. plugin-hostd is a floor like the others (ruling 2026-11-09: its own repository, released last).
 Package: plugin-hostd-full
 Architecture: all
-Depends: plugin-hostd (>= 0.20.7~),
-         omx-clap-host (>= 0.32.3~),
+Depends: plugin-hostd (>= 0.20.8~),
+         plugin-hostd-protocol (>= 0.6.0~),
+         omx-clap-host (>= 0.33.0~),
          omx-plugins (>= 0.19.3~),
          plugin-qualify (>= 0.20.1~),
          ${misc:Depends}

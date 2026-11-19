@@ -9,7 +9,7 @@ import os, re, sys, tempfile
 
 ROOT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), ".."))
 SPEC, CONTROL = "packaging/plugin-hostd-full.spec", "debian/control"
-WANT = {"plugin-hostd", "omx-clap-host", "omx-plugins", "plugin-qualify", "omx-panel", "plugin-qualification-records"}
+WANT = {"plugin-hostd", "plugin-hostd-protocol", "omx-clap-host", "omx-plugins", "plugin-qualify", "omx-panel", "plugin-qualification-records"}
 
 
 def read(root, path):
@@ -73,9 +73,9 @@ def planted():
                                                 "Requires: (omx-plugins >= 0.19.3 with omx-plugins < 0.20)")),
         "a ceiling (deb)": (CONTROL, control.replace("omx-plugins (>= 0.19.3~),",
                                                      "omx-plugins (>= 0.19.3~), omx-plugins (<< 0.20~),")),
-        "a ceiling past the next minor": (SPEC, spec.replace("Requires: omx-clap-host >= 0.32.3",
-                                                             "Requires: omx-clap-host >= 0.32.3\nRequires: omx-clap-host < 0.33")),
-        "plugin-hostd pinned": (SPEC, spec.replace("Requires: plugin-hostd >= 0.20.7",
+        "a ceiling past the next minor": (SPEC, spec.replace("Requires: omx-clap-host >= 0.33.0",
+                                                             "Requires: omx-clap-host >= 0.33.0\nRequires: omx-clap-host < 0.34")),
+        "plugin-hostd pinned": (SPEC, spec.replace("Requires: plugin-hostd >= 0.20.8",
                                                     "Requires: plugin-hostd = %{version}-%{release}")),
         "the spec and the deb apart": (CONTROL, control.replace("plugin-qualify (>= 0.20.1~)", "plugin-qualify (>= 0.20.2~)")),
         "a dependency dropped": (CONTROL, control.replace("omx-panel (>= 0.13.0~),\n            plugin-qualification-records (>= 2026110902~)",
