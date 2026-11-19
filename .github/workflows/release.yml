@@ -78,7 +78,8 @@ permissions:
 jobs:
   # The packages other repositories release LATER in this same pass, for the channel-installability gate: read by the
   # shared action (Open-Mixer/.github), never a copy. The dispatch same_pass input wins; otherwise the tracked
-  # .github/release-same-pass at the commit this run builds (the tag on a push), reviewed like code and gone with its
+  # .github/release-same-pass at the commit this run builds (the tag on a push, the source-ref tag of a dispatch that
+  # republishes one, else the dispatched head), reviewed like code and gone with its
   # release branch. tests/release_same_pass.py holds this wiring.
   samepass:
     runs-on: ubuntu-latest
@@ -89,7 +90,7 @@ jobs:
         uses: Open-Mixer/.github/.github/actions/same-pass@openmixer-v1
         with:
           list: ${{ inputs.same_pass }}
-          ref: ${{ github.sha }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || github.sha }}
 
   rpm:
     needs: samepass

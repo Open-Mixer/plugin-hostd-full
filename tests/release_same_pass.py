@@ -20,6 +20,7 @@ import tempfile
 FILE = ".github/release-same-pass"
 WIRED = "same-pass: ${{ needs.samepass.outputs.list }}"
 ACTION = "Open-Mixer/.github/.github/actions/same-pass@openmixer-v1"
+SOURCE_REF = "ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || github.sha }}"
 SHARED = ("rpm", "deb")
 
 
@@ -53,6 +54,8 @@ def problems(text):
         found.append("the samepass job does not pass the dispatch input as list")
     if "ref:" not in same:
         found.append("the samepass job passes no ref: the commit built")
+    elif "source-ref:" in text and SOURCE_REF not in same:
+        found.append("the workflow builds a source-ref but samepass does not read the list at it: ref must be " + SOURCE_REF)
     if "run:" in same:
         found.append("the samepass job reads the file itself: a copy of the shared reader")
     for job in SHARED:
@@ -72,7 +75,7 @@ def problems(text):
     return found
 
 
-def fixture(wired=True, reads=True, needs=True, copied=False):
+def fixture(wired=True, reads=True, needs=True, copied=False, source_ref=True, ref_sha=False):
     lines = [
         "name: release",
         "on:",
@@ -81,8 +84,10 @@ def fixture(wired=True, reads=True, needs=True, copied=False):
         "      same_pass:",
         "        type: string",
         "        default: ''",
-        "jobs:",
     ]
+    if source_ref:
+        lines += ["      source-ref:", "        type: string", "        default: ''"]
+    lines += ["jobs:"]
     if reads:
         lines += [
             "  samepass:",
@@ -97,7 +102,7 @@ def fixture(wired=True, reads=True, needs=True, copied=False):
                 "        uses: " + ACTION,
                 "        with:",
                 "          list: ${{ inputs.same_pass }}",
-                "          ref: ${{ github.sha }}",
+                "          " + ("ref: ${{ github.sha }}" if ref_sha else SOURCE_REF),
             ]
     for job, uses in (("rpm", "build-rpm.yml"), ("deb", "build-deb.yml")):
         lines.append("  " + job + ":")
@@ -118,6 +123,8 @@ def self_test():
         ("the input-only wiring fails", fixture(wired=False), True),
         ("no samepass job fails", fixture(reads=False), True),
         ("a samepass job that copies the reader fails", fixture(copied=True), True),
+        ("a source-ref input with ref: github.sha fails", fixture(ref_sha=True), True),
+        ("no source-ref input with ref: github.sha passes", fixture(source_ref=False, ref_sha=True), False),
         ("rpm and deb that do not need samepass fail", fixture(needs=False), True),
     ]
     failed = []
