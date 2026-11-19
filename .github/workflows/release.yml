@@ -46,6 +46,10 @@ on:
         description: 'With source-ref: build and publish only the cells of the set the served version lacks; never rewrites a file the channel serves'
         type: boolean
         default: false
+      same_pass:
+        description: 'Packages other repositories release later in the same pass, space separated; empty reads .github/release-same-pass at the commit built'
+        type: string
+        default: ''
   workflow_call:
     inputs:
       publish:
@@ -61,6 +65,10 @@ on:
       staged-deps:
         type: string
         default: ''
+      same_pass:
+        description: 'Packages other repositories release later in the same pass, space separated; empty reads .github/release-same-pass at the commit built'
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -68,11 +76,28 @@ permissions:
   actions: read
 
 jobs:
+  # The packages other repositories release LATER in this same pass, for the channel-installability gate: read by the
+  # shared action (Open-Mixer/.github), never a copy. The dispatch same_pass input wins; otherwise the tracked
+  # .github/release-same-pass at the commit this run builds (the tag on a push), reviewed like code and gone with its
+  # release branch. tests/release_same_pass.py holds this wiring.
+  samepass:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.same.outputs.list }}
+    steps:
+      - id: same
+        uses: Open-Mixer/.github/.github/actions/same-pass@openmixer-v1
+        with:
+          list: ${{ inputs.same_pass }}
+          ref: ${{ github.sha }}
+
   rpm:
+    needs: samepass
     uses: Open-Mixer/.github/.github/workflows/build-rpm.yml@openmixer-v1
     with:
       staged: ${{ inputs.staged == true }}
       staged-deps: ${{ inputs.staged-deps || '' }}
+      same-pass: ${{ needs.samepass.outputs.list }}
       package-name: plugin-hostd-full
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       source-ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || '' }}
@@ -84,10 +109,12 @@ jobs:
   # or skipped RPM job skips this one, so no DEB is published after a failed RPM.
   # beside the RPMs: the two publish jobs share one concurrency group, so their pushes never race
   deb:
+    needs: samepass
     uses: Open-Mixer/.github/.github/workflows/build-deb.yml@openmixer-v1
     with:
       staged: ${{ inputs.staged == true }}
       staged-deps: ${{ inputs.staged-deps || '' }}
+      same-pass: ${{ needs.samepass.outputs.list }}
       package-name: plugin-hostd-full
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       source-ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || '' }}
