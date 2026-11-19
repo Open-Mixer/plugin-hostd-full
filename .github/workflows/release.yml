@@ -86,6 +86,7 @@ jobs:
   deb:
     uses: Open-Mixer/.github/.github/workflows/build-deb.yml@openmixer-v1
     with:
+      enabled: false # ships no Debian package (owner ruling 2026-11-19: Zynthian never needs it); the debian/ directory stays, served debs stay
       staged: ${{ inputs.staged == true }}
       staged-deps: ${{ inputs.staged-deps || '' }}
       package-name: plugin-hostd-full
