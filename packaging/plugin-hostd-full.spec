@@ -19,7 +19,7 @@ BuildRequires: python3
 # plugin-hostd is a floor like the others: this package is its own repository, released last in each wave (ruling
 # 2026-11-09), so it never pins the daemon's own release.
 Requires: plugin-hostd >= 0.20.8
-Requires: plugin-hostd-protocol >= 0.6.0
+Requires: plugin-hostd-protocol >= 0.7.0
 Requires: omx-clap-host >= 0.33.0
 Requires: omx-plugins >= 0.19.3
 Requires: plugin-qualify >= 0.20.1
@@ -58,10 +58,12 @@ make check
   dependency a floor, no ceiling, the same in the spec and debian/control;
   tests/ranges.py refuses a ceiling or a pin), #15 (the commit-msg hook is the
   shared stub byte for byte), #17 (release.yml reads the same-pass list through
-  the shared same-pass action, with tests/release_same_pass.py holding it).
+  the shared same-pass action, with tests/release_same_pass.py holding it), #19 (Fedora 45 only, the F44 cells
+  dropped, and a lint refusing any F44 cell), #20 (the commit identity check is
+  on for pull requests).
 - Floors moved: plugin-hostd >= 0.20.8 (was 0.20.7), omx-clap-host >= 0.33.0
-  (was 0.32.3).
-- New dependency: plugin-hostd-protocol >= 0.6.0.
+  (was 0.32.3); this package uses no omx-clap-core, so that floor is not set here.
+- New dependency: plugin-hostd-protocol >= 0.7.0.
 - Conflicts, Breaks, Replaces and Obsoletes: none, and none naming our packages.
 - Unchanged floors: omx-plugins >= 0.19.3, plugin-qualify >= 0.20.1, recommended
   omx-panel >= 0.13.0 and plugin-qualification-records >= 2026110902.
