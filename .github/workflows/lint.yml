@@ -42,3 +42,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: make check
+
+  pr-fixes-issue:
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: read
+    uses: Open-Mixer/.github/.github/workflows/pr-fixes-issue.yml@openmixer-v1
