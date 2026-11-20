@@ -1,3 +1,27 @@
+plugin-hostd-full (0.20.8) unstable; urgency=medium
+
+  * Pull requests since 0.20.7: #9 (the RPM and DEB builds run by
+    workflow_dispatch only, make check on pull requests in lint.yml), #12
+    (floors only: every dependency a floor, no ceiling, the same in the spec
+    and debian/control; tests/ranges.py refuses a ceiling or a pin), #15 (the
+    commit-msg hook is the shared stub byte for byte), #17 (release.yml reads
+    the same-pass list through the shared same-pass action, with
+    tests/release_same_pass.py holding it), #19 (Fedora 45 only, the F44 cells
+    dropped, and a lint refusing any F44 cell), #20 (the commit identity check
+    is on for pull requests).
+  * Floors moved: plugin-hostd >= 0.20.8 (was 0.20.7), omx-clap-host >= 0.33.1
+    (was 0.32.3); this package uses no omx-clap-core, so that floor is not
+    set here.
+  * New dependency: plugin-hostd-protocol >= 0.7.0 (published 0.7.0; the
+    pre-cut named 0.6.0).
+  * Conflicts, Breaks, Replaces and Obsoletes: none, and none naming our
+    packages.
+  * Unchanged floors: omx-plugins >= 0.19.3, plugin-qualify >= 0.20.1,
+    recommended omx-panel >= 0.13.0 and plugin-qualification-records >=
+    2026110902.
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Thu, 19 Nov 2026 12:00:00 +0000
+
 plugin-hostd-full (0.20.7) unstable; urgency=medium
 
   * plugin-hostd-full in its own repository (ruling 2026-11-09), the
