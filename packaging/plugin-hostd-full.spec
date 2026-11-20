@@ -20,7 +20,7 @@ BuildRequires: python3
 # 2026-11-09), so it never pins the daemon's own release.
 Requires: plugin-hostd >= 0.20.8
 Requires: plugin-hostd-protocol >= 0.7.0
-Requires: omx-clap-host >= 0.33.0
+Requires: omx-clap-host >= 0.33.1
 Requires: omx-plugins >= 0.19.3
 Requires: plugin-qualify >= 0.20.1
 Recommends: omx-panel >= 0.13.0
@@ -61,7 +61,7 @@ make check
   the shared same-pass action, with tests/release_same_pass.py holding it), #19 (Fedora 45 only, the F44 cells
   dropped, and a lint refusing any F44 cell), #20 (the commit identity check is
   on for pull requests).
-- Floors moved: plugin-hostd >= 0.20.8 (was 0.20.7), omx-clap-host >= 0.33.0
+- Floors moved: plugin-hostd >= 0.20.8 (was 0.20.7), omx-clap-host >= 0.33.1
   (was 0.32.3); this package uses no omx-clap-core, so that floor is not set here.
 - New dependency: plugin-hostd-protocol >= 0.7.0.
 - Conflicts, Breaks, Replaces and Obsoletes: none, and none naming our packages.

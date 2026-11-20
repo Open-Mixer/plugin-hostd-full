@@ -9,7 +9,7 @@ plugin-hostd-full (0.20.8) unstable; urgency=medium
     tests/release_same_pass.py holding it), #19 (Fedora 45 only, the F44 cells
     dropped, and a lint refusing any F44 cell), #20 (the commit identity check
     is on for pull requests).
-  * Floors moved: plugin-hostd >= 0.20.8 (was 0.20.7), omx-clap-host >= 0.33.0
+  * Floors moved: plugin-hostd >= 0.20.8 (was 0.20.7), omx-clap-host >= 0.33.1
     (was 0.32.3); this package uses no omx-clap-core, so that floor is not
     set here.
   * New dependency: plugin-hostd-protocol >= 0.7.0 (published 0.7.0; the
