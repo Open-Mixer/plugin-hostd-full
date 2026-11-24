@@ -14,8 +14,8 @@
 #           check names who pulls them so a new one is red: libxcb (the X protocol client library) only for
 #           omx-clap-host, which links it to embed a plugin's window; nodejs only for plugin-qualify and omx-contract
 #           (and Debian's node-* modules of nodejs itself).
-# Both: plugin-hostd-full is <version> and plugin-hostd is installed at what its range allows (plugin-hostd-full is its
-# own repository, released last in each wave: plugin-hostd is a range, never this package's version), and plugin-qualification-records is the build of this machine's architecture,
+# Both: plugin-hostd-full is <version> and plugin-hostd is installed (plugin-hostd-full is its own repository, released
+# last in each wave, and names no version of plugin-hostd: the channel's build is what installs), and plugin-qualification-records is the build of this machine's architecture,
 # holding the sets of its class (rpi5 on arm64/aarch64, x86-64 on amd64/x86_64). The channel must already be configured (add-openmixer); Pages
 # serves a fresh publish a little late, so the install is retried before it is called broken.
 set -euo pipefail
@@ -84,7 +84,7 @@ for p in $STACK; do
     echo "installed: $p $(version_of "$p")"
 done
 version_is "$(version_of plugin-hostd-full)" "$ver" || fail "plugin-hostd-full is $(version_of plugin-hostd-full), not $ver"
-echo "plugin-hostd $(version_of plugin-hostd), in plugin-hostd-full's range (the package manager held it to it)"
+echo "plugin-hostd $(version_of plugin-hostd), the channel's build"
 
 # plugin-qualification-records: one package, built per architecture; the one installed is this machine's, and holds
 # the sets of this machine's class

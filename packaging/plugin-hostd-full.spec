@@ -13,20 +13,18 @@ BuildRequires: python3
 
 # The whole plugin host stack in one install, on any Fedora: the daemon, its CLAP/LV2 worker, the OpenMixer plugins, the
 # qualifier and the qualification records (one package built per architecture: the desk sets on x86_64, the Raspberry
-# Pi 5 set on aarch64). Every dependency a floor at the release this one is tested with and no ceiling (owner rule
-# 2026-11-16: our packages carry floors only); the records' dated version (YYYYMMDDXX) is a floor too (tests/ranges.py). The panel is a weak
-# dependency: `dnf install --setopt=install_weak_deps=False plugin-hostd-full` is the headless install, with no panel.
-# plugin-hostd is a floor like the others: this package is its own repository, released last in each wave (ruling
-# 2026-11-09), so it never pins the daemon's own release.
-Requires: plugin-hostd >= 0.20.8
-Requires: plugin-hostd-protocol >= 0.7.0
-Requires: omx-clap-host >= 0.33.1
-Requires: omx-plugins >= 0.19.3
-Requires: plugin-qualify >= 0.20.1
-Recommends: omx-panel >= 0.13.0
+# Pi 5 set on aarch64). No dependency carries a typed version (owner ruling 2026-11-24: no hand-kept floors; each
+# layer builds and installs against the lower layer's published package, and tests/deps.py refuses a typed version).
+# The panel is a weak dependency: `dnf install --setopt=install_weak_deps=False plugin-hostd-full` is the headless
+# install, with no panel. This package is its own repository, released last in each wave (ruling 2026-11-09).
+Requires: plugin-hostd
+Requires: plugin-hostd-protocol
+Requires: omx-clap-host
+Requires: omx-plugins
+Requires: plugin-qualify
+Recommends: omx-panel
 # recommended until the package is in the channel: a hard dependency now would leave plugin-hostd-full uninstallable
-Recommends: plugin-qualification-records >= 2026110902
-
+Recommends: plugin-qualification-records
 %description
 Installs plugin-hostd with everything it runs plugins with: omx-clap-host,
 the CLAP worker that also runs LV2 plugins through its adapter, the OpenMixer

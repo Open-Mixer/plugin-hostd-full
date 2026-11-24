@@ -3,7 +3,7 @@ name: ci
 # The heavy jobs, by workflow_dispatch only (never on a push or a pull request): the RPM and the DEB built as the
 # release builds them (Open-Mixer/.github's build-rpm and build-deb actions), published nowhere. A pull request is
 # checked by dispatching this workflow on its head before it merges (gh workflow run ci.yml --ref <branch>). Its fast
-# checks are lint.yml's make check: the floors-only ranges (every dependency a floor and no ceiling, the same in the
+# checks are lint.yml's make check: the unversioned dependencies (no typed version on any, the same packages in the
 # spec and debian/control) and the kept-install check's own self-test.
 on:
   workflow_dispatch:
