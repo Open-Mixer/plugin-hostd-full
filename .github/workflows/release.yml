@@ -7,7 +7,7 @@ name: release
 # Anything else, a manual run from a branch or the dry run of ci.yml, builds and assembles unsigned trees and
 # publishes nothing. Everything is in Open-Mixer/.github; the secrets are the organisation's.
 
-# A manual run with staged on (never a tag) builds fc44 x86_64 and trixie amd64 only, against the staging channel, and
+# A manual run with staged on (never a tag) builds fc45 x86_64 and trixie amd64 only, against the staging channel, and
 # publishes them, signed, to the staging channel (staging/rpm and staging/deb of the channel repository), where the
 # next layer of the release chain finds them by adding the staging channel beside the real one. Nothing reaches the
 # real channel, and the real release still publishes once from the v<version> tag (Open-Mixer/.github build-rpm.yml
@@ -35,7 +35,7 @@ on:
         type: boolean
         default: true
       staged:
-        description: 'Build fc44 x86_64 and trixie amd64 only and publish them to the staging channel for the next layer; publishes nothing to the real channel'
+        description: 'Build fc45 x86_64 and trixie amd64 only and publish them to the staging channel for the next layer; publishes nothing to the real channel'
         type: boolean
         default: false
       staged-deps:
@@ -46,6 +46,10 @@ on:
         description: 'With source-ref: build and publish only the cells of the set the served version lacks; never rewrites a file the channel serves'
         type: boolean
         default: false
+      same_pass:
+        description: 'Packages other repositories release later in the same pass, space separated; empty reads .github/release-same-pass at the commit built'
+        type: string
+        default: ''
   workflow_call:
     inputs:
       publish:
@@ -61,6 +65,10 @@ on:
       staged-deps:
         type: string
         default: ''
+      same_pass:
+        description: 'Packages other repositories release later in the same pass, space separated; empty reads .github/release-same-pass at the commit built'
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -68,27 +76,47 @@ permissions:
   actions: read
 
 jobs:
+  # The packages other repositories release LATER in this same pass, for the channel-installability gate: read by the
+  # shared action (Open-Mixer/.github), never a copy. The dispatch same_pass input wins; otherwise the tracked
+  # .github/release-same-pass at the commit this run builds (the tag on a push, the source-ref tag of a dispatch that
+  # republishes one, else the dispatched head), reviewed like code and gone with its
+  # release branch. tests/release_same_pass.py holds this wiring.
+  samepass:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.same.outputs.list }}
+    steps:
+      - id: same
+        uses: Open-Mixer/.github/.github/actions/same-pass@openmixer-v1
+        with:
+          list: ${{ inputs.same_pass }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || github.sha }}
+
   rpm:
+    needs: samepass
     uses: Open-Mixer/.github/.github/workflows/build-rpm.yml@openmixer-v1
     with:
       staged: ${{ inputs.staged == true }}
       staged-deps: ${{ inputs.staged-deps || '' }}
+      same-pass: ${{ needs.samepass.outputs.list }}
       package-name: plugin-hostd-full
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       source-ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || '' }}
       republish: ${{ github.event_name == 'workflow_dispatch' && inputs.republish == true }}
       catch-up: ${{ github.event_name == 'workflow_dispatch' && inputs.catch-up == true }}
-      arch-matrix: ${{ (github.event_name != 'push' && inputs.arm == false && !inputs.source-ref) && '["x86_64"]' || '["x86_64", "aarch64"]' }}
+      arch-matrix: '["x86_64"]'
     secrets: inherit
 
   # or skipped RPM job skips this one, so no DEB is published after a failed RPM.
   # beside the RPMs: the two publish jobs share one concurrency group, so their pushes never race
   deb:
+    needs: samepass
     uses: Open-Mixer/.github/.github/workflows/build-deb.yml@openmixer-v1
     with:
       enabled: false # ships no Debian package (owner ruling 2026-11-19: Zynthian never needs it); the debian/ directory stays, served debs stay
       staged: ${{ inputs.staged == true }}
       staged-deps: ${{ inputs.staged-deps || '' }}
+      same-pass: ${{ needs.samepass.outputs.list }}
       package-name: plugin-hostd-full
       publish: ${{ github.event_name == 'push' || inputs.publish == true }}
       source-ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source-ref || '' }}
@@ -98,7 +126,7 @@ jobs:
     secrets: inherit
 
   # plugin-hostd-full from the channel, kept, the way the install pages say, in a clean container of Debian trixie and
-  # Fedora 44 and 45, on both architectures: the default install pulls every package of the stack, omx-panel
+  # Fedora 45 on x86_64: the default install pulls every package of the stack, omx-panel
   # with it, and the records of the machine's class; the headless one (--no-install-recommends,
   # install_weak_deps=False) leaves out omx-panel and every X server, Xlib, Wayland and GTK package
   # (tools/full-install-check.sh, which also names the only packages allowed to pull libxcb and nodejs). After the
@@ -128,7 +156,7 @@ jobs:
     name: plugin-hostd-full (Fedora ${{ matrix.fedora }}, ${{ matrix.arch }}, ${{ matrix.mode }})
     needs: rpm
     if: ${{ !cancelled() && needs.rpm.result == 'success' && github.ref_type == 'tag' && inputs.catch-up != true }}
-    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
       contents: read
@@ -137,8 +165,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora: [44, 45]
-        arch: [x86_64, aarch64]
+        fedora: [45]
+        arch: [x86_64]
         mode: [default, headless]
     steps:
       - uses: actions/checkout@v4
