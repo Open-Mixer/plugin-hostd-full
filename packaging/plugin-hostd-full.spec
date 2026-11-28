@@ -1,5 +1,5 @@
 Name: plugin-hostd-full
-Version: 0.20.8
+Version: 0.20.9
 Release: 1%{?dist}
 License: GPL-3.0-or-later
 Summary: Whole plugin host stack: daemon, workers, plugins, qualifier
@@ -52,6 +52,9 @@ make check
 %doc README.md
 
 %changelog
+* Sat Nov 28 2026 Pau Aliagas <linuxnow@gmail.com> - 0.20.9-1
+- A merge to devel publishes the real package to staging (#29).
+
 * Thu Nov 19 2026 Pau Aliagas <linuxnow@gmail.com> - 0.20.8-1
 - Pull requests since 0.20.7: #9 (the RPM and DEB builds run by workflow_dispatch
   only, make check on pull requests in lint.yml), #12 (floors only: every

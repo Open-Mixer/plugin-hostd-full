@@ -1,3 +1,9 @@
+plugin-hostd-full (0.20.9) unstable; urgency=medium
+
+  * A merge to devel publishes the real package to staging (#29).
+
+ -- Pau Aliagas <linuxnow@gmail.com>  Sat, 28 Nov 2026 13:21:08 +0100
+
 plugin-hostd-full (0.20.8) unstable; urgency=medium
 
   * Pull requests since 0.20.7: #9 (the RPM and DEB builds run by
